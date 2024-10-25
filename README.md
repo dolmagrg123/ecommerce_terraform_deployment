@@ -6,9 +6,7 @@
 
 ## Infrastructure as Code
 
-Welcome to Deployment Workload 5! In Workload 4 we built out our infrastructure to increase security and distrubute the resources.  Those are only some aspects of creating a "good system" though.  Let's keep optimizing.
 
-Be sure to document each step in the process and explain WHY each step is important to the pipeline.
 
 ## Instructions
 
@@ -23,9 +21,43 @@ IMPORTANT: THE 2 EC2's CREATED FOR THESE FIRST 11 STEPS MUST BE TERMINATED AFTER
 
 3. In the "Backend" EC2 (Django) clone your source code repository and install `"python3.9", "python3.9-venv", and "python3.9-dev"`
 
+To install python, we need to first install software-properties-common and ppa deadsnakes. Or we get error:
+
+```
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+E: Unable to locate package python3.9
+E: Couldn't find any package by glob 'python3.9'
+E: Unable to locate package python3.9-venv
+E: Couldn't find any package by glob 'python3.9-venv'
+E: Unable to locate package python3.9-dev
+E: Couldn't find any package by glob 'python3.9-dev'
+```
+
+```
+git clone https://github.com/dolmagrg123/ecommerce_terraform_deployment.git
+
+sudo apt install -y software-properties-common
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt install python3.9 python3.9-venv python3.9-dev
+
+```
+
 4. Create a python3.9 virtual environment (venv), activate it, and install the dependencies from the "requirements.txt" file.
 
-5. Modify "settings.py" in the "my_project" directory and update "ALLOWED_HOSTS" to include the private IP of the backend EC2.  
+```
+python3.9 -m venv venv
+source venv/bin/activate
+cd ./backend
+pip install -r requirements.txt
+
+```
+5. Modify "settings.py" in the "my_project" directory and update "ALLOWED_HOSTS" to include the private IP of the backend EC2.
+
+```
+ALLOWED_HOSTS = ["172.31.42.193"]
+```  
 
 6. Start the Django server by running:
 ```
