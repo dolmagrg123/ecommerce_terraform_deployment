@@ -86,11 +86,11 @@ npm start
 
 11. You should be able to enter the public IP address:port 3000 of the Frontend server in a web browser to see the application.  If you are able to see the products, it sucessfully connected to the backend server!  To see what the application looks like if it fails to connect: Navigate to the backend server and stop the Django server by pressing ctrl+c.  Then refresh the webpage.  You should see that the request for the data in the backend failed with a status code.
 
-![Launch Page](images/manual_website_launch.png)
+![Launch Page](Images/manual_website_launch.png)
 
 After Stopping Backend Server
 
-![Launch Page](images/manual_website_failed.png)
+![Launch Page](Images/manual_website_failed.png)
 
 12.  Destroy the 2 EC2's from the above steps. Again, this was to help you understand the inner workings of a new application with a new tech stack.
 
