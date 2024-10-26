@@ -153,6 +153,8 @@ NOTE 1: This list DOES NOT include ALL of the resource blocks required for this 
 
 NOTE 2: Remember that "planning" is always the first step in creating infrastructure.  It is highly recommeded to diagram this infrastructure first so that it can help you organize your terraform file.
 
+![Planned Infrastructure](Images/workload5.drawio.png)
+
 NOTE 3: Put your terraform files into your GitHub repo in the "Terraform" directory. 
 
 3. To add the RDS database to your main.tf, use the following resource blocks:
