@@ -45,6 +45,11 @@ module "LB" {
 
 module "RDS"{
   source = "./RDS"
+  vpc_id = module.VPC.vpc_id
+  private_subnet_1a_id = module.VPC.private_subnet_1a_id
+  private_subnet_1b_id = module.VPC.private_subnet_1b_id
+  backend_sg_id = module.EC2.backend_sg_id
+
 }
 
 

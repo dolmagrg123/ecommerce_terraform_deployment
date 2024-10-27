@@ -21,7 +21,7 @@ resource "aws_db_instance" "postgres_db" {
 
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "rds_subnet_group"
-  subnet_ids = [aws_subnet.private_subnet.id, aws_subnet.private_subnet_2.id]
+  subnet_ids = [var.private_subnet_1a_id, var.private_subnet_1b_id]
 
   tags = {
     Name = "RDS subnet group"
@@ -31,13 +31,13 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 resource "aws_security_group" "rds_sg" {
   name        = "rds_sg"
   description = "Security group for RDS"
-  vpc_id      = aws_vpc.ecommerce_vpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
-    security_groups = [aws_security_group.backend_security_group.id]
+    security_groups = [var.backend_sg_id]
   }
 
   egress {

@@ -20,3 +20,10 @@ variable "db_password" {
   type        = string
   default     = "kurac5password"
 }
+
+variable "private_subnet_1a_id" {}
+variable "private_subnet_1b_id" {}
+variable "vpc_id" {}
+variable "backend_sg_id" {}
+
+
