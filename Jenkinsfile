@@ -53,7 +53,8 @@ pipeline {
       steps {
         dir('Terraform') {
           script {
-            sh 'terraform apply -auto-approve plan.tfplan'
+            sh 'terraform destroy'
+            // sh 'terraform apply -auto-approve plan.tfplan'
             
             // // Capture outputs and store them in environment variables
             // def privateIp = sh(script: 'terraform output -raw backend_private_ip', returnStdout: true).trim()
