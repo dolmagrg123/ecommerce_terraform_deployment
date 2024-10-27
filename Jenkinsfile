@@ -55,27 +55,27 @@ pipeline {
           script {
             sh 'terraform apply -auto-approve plan.tfplan'
             
-            // Capture outputs and store them in environment variables
-            def privateIp = sh(script: 'terraform output -raw backend_private_ip', returnStdout: true).trim()
-            def dbHost = sh(script: 'terraform output -raw rds_endpoint', returnStdout: true).trim()
-            def dbName = sh(script: 'terraform output -raw rds_db_name', returnStdout: true).trim()
-            def dbUser = sh(script: 'terraform output -raw rds_username', returnStdout: true).trim()
-            def dbPassword = sh(script: 'terraform output -raw rds_password', returnStdout: true).trim()
+            // // Capture outputs and store them in environment variables
+            // def privateIp = sh(script: 'terraform output -raw backend_private_ip', returnStdout: true).trim()
+            // def dbHost = sh(script: 'terraform output -raw rds_endpoint', returnStdout: true).trim()
+            // def dbName = sh(script: 'terraform output -raw rds_db_name', returnStdout: true).trim()
+            // def dbUser = sh(script: 'terraform output -raw rds_username', returnStdout: true).trim()
+            // def dbPassword = sh(script: 'terraform output -raw rds_password', returnStdout: true).trim()
             
-            echo "Backend Private IP: ${privateIp}"
-            echo "RDS Endpoint: ${dbHost}"
+            // echo "Backend Private IP: ${privateIp}"
+            // echo "RDS Endpoint: ${dbHost}"
             
-            // Update settings.py and package.json
-            dir('backend') {
-              sh """
-                sed -i 's/ALLOWED_HOSTS = \\[\\]/ALLOWED_HOSTS = [\"${privateIp}\"]/' my_project/settings.py
-                sed -i 's|http://private_ec2_ip:8000|http://${privateIp}:8000|' ../frontend/package.json
-                sed -i '/DATABASES = {/,/sqlite3/s/^ *#//' my_project/settings.py
-                sed -i \"s/'NAME': 'your_db_name'/'NAME': '${dbName}'/\" my_project/settings.py
-                sed -i \"s/'USER': 'your_username'/'USER': '${dbUser}'/\" my_project/settings.py
-                sed -i \"s/'PASSWORD': 'your_password'/'PASSWORD': '${dbPassword}'/\" my_project/settings.py
-                sed -i \"s/'HOST': 'your-rds-endpoint.amazonaws.com'/'HOST': '${dbHost}'/\" my_project/settings.py
-              """
+            // // Update settings.py and package.json
+            // dir('backend') {
+            //   sh """
+            //     sed -i 's/ALLOWED_HOSTS = \\[\\]/ALLOWED_HOSTS = [\"${privateIp}\"]/' my_project/settings.py
+            //     sed -i 's|http://private_ec2_ip:8000|http://${privateIp}:8000|' ../frontend/package.json
+            //     sed -i '/DATABASES = {/,/sqlite3/s/^ *#//' my_project/settings.py
+            //     sed -i \"s/'NAME': 'your_db_name'/'NAME': '${dbName}'/\" my_project/settings.py
+            //     sed -i \"s/'USER': 'your_username'/'USER': '${dbUser}'/\" my_project/settings.py
+            //     sed -i \"s/'PASSWORD': 'your_password'/'PASSWORD': '${dbPassword}'/\" my_project/settings.py
+            //     sed -i \"s/'HOST': 'your-rds-endpoint.amazonaws.com'/'HOST': '${dbHost}'/\" my_project/settings.py
+            //   """
             }
           }
         }
