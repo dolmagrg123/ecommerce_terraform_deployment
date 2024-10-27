@@ -53,7 +53,7 @@ pipeline {
       steps {
         dir('Terraform') {
           script {
-            sh 'terraform destroy'
+            sh 'terraform destroy -auto-approve plan.tfplan'
             // sh 'terraform apply -auto-approve plan.tfplan'
             
             // // Capture outputs and store them in environment variables
