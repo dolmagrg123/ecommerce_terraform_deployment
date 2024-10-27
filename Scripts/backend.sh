@@ -19,8 +19,6 @@ python3.9 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-# Update ALLOWED_HOSTS in settings.py
-sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \[\"<backend-private-IP>\"\]/" my_project/settings.py
 
 # Start Django server
 nohup python manage.py runserver 0.0.0.0:8000 &

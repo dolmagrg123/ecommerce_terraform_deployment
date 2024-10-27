@@ -8,7 +8,7 @@ resource "aws_instance" "ecommerce_frontend_az1" {
   instance_type     = var.instance_type  
   vpc_security_group_ids =[aws_security_group.frontend_sg.id]
   key_name          = "WL5" 
-  user_data         = "${file("frontend.sh")}"
+  user_data         = "${file("${path.module}/../../Scripts/frontend.sh")}"
   subnet_id = var.public_subnet_1a_id
   tags = {
     "Name" : "ecommerce_frontend_az1"
@@ -20,7 +20,7 @@ resource "aws_instance" "ecommerce_frontend_az2" {
   instance_type     = var.instance_type  
   vpc_security_group_ids =[aws_security_group.frontend_sg.id]
   key_name          = "WL5" 
-#   user_data         = "${file("frontend.sh")}"
+  user_data         = "${file("${path.module}/../../Scripts/frontend.sh")}"
   subnet_id = var.public_subnet_1b_id
   tags = {
     "Name" : "ecommerce_frontend_az2"
@@ -33,7 +33,7 @@ resource "aws_instance" "ecommerce_backend_az2" {
   instance_type     = var.instance_type     
   vpc_security_group_ids =[aws_security_group.backend_sg.id]
   key_name          = "WL5"
-  # user_data         = "${file("jenkins.sh")}"
+  user_data         = "${file("${path.module}/../../Scripts/backend.sh")}"
   subnet_id = var.private_subnet_1b_id
   tags = {
     "Name" : "ecommerce_backend_az2"    
@@ -46,7 +46,7 @@ resource "aws_instance" "ecommerce_backend_az1" {
   instance_type     = var.instance_type     
   vpc_security_group_ids =[aws_security_group.backend_sg.id]
   key_name          = "WL5"
-  # user_data         = "${file("jenkins.sh")}"
+  user_data         = "${file("${path.module}/../../Scripts/backend.sh")}"
   subnet_id = var.private_subnet_1a_id
   tags = {
     "Name" : "ecommerce_backend_az1"    

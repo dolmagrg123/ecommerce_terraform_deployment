@@ -1,5 +1,3 @@
-
-
  output "frontend_sg_id"{
    value = aws_security_group.frontend_sg.id
  }
@@ -14,4 +12,8 @@
  output "ecommerce_frontend_az2_id"{
    value = aws_instance.ecommerce_frontend_az2.id
  }
+
+ output "backend_private_ip" {
+  value = aws_instance.ecommerce_backend_az1.private_ip
+}
  

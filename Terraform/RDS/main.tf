@@ -52,6 +52,4 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
-output "rds_endpoint" {
-  value = aws_db_instance.postgres_db.endpoint
-}
+
