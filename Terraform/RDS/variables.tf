@@ -18,6 +18,7 @@ variable "db_username" {
 variable "db_password" {
   description = "Password for the master DB user"
   type        = string
+  default     = "kurac5password"
 }
 
 variable "private_subnet_1a_id" {}
