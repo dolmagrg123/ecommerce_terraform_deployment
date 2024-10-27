@@ -83,27 +83,27 @@ pipeline {
       }
     // }
 
-    // stage('Database Load') {
-    //   steps {
-    //     dir('backend') {
-    //       script {
-    //         sh '''
-    //           # Activate virtual environment
-    //           source venv/bin/activate
+    stage('Database Load') {
+      steps {
+        dir('backend') {
+          script {
+            sh '''
+              # Activate virtual environment
+              source venv/bin/activate
 
-    //           # Step 1: Create tables in RDS
-    //           python manage.py makemigrations account
-    //           python manage.py makemigrations payments
-    //           python manage.py makemigrations product
-    //           python manage.py migrate
+              # Step 1: Create tables in RDS
+              python manage.py makemigrations account
+              python manage.py makemigrations payments
+              python manage.py makemigrations product
+              python manage.py migrate
 
-    //           # Step 2: Migrate data from SQLite to RDS
-    //           python manage.py dumpdata --database=sqlite --natural-foreign --natural-primary -e contenttypes -e auth.Permission --indent 4 > datadump.json
-    //           python manage.py loaddata datadump.json
-    //         '''
-    //       }
-    //     }
-    //   }
-    // }
+              # Step 2: Migrate data from SQLite to RDS
+              python manage.py dumpdata --database=sqlite --natural-foreign --natural-primary -e contenttypes -e auth.Permission --indent 4 > datadump.json
+              python manage.py loaddata datadump.json
+            '''
+          }
+        }
+      }
+    }
   }
 }
