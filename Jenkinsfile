@@ -4,14 +4,34 @@ pipeline {
     stage ('Build') {
       steps {
         sh '''#!/bin/bash
-        <code to build the application>
+        echo 'Building Backend and Frontend Applications...'
+        sudo apt-get update
+        sudo apt-get install -y software-properties-common
+
+        sudo add-apt-repository -y ppa:deadsnakes/ppa
+        sudo apt-get update
+        sudo apt-get install -y python3.9 python3.9-venv python3.9-dev
+
+        python3.9 -m venv venv
+        source venv/bin/activate
+
+        pip install -r requirements.txt
+
+        curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+        sudo apt-get install -y nodejs
+
+        sed -i 's|"proxy": "http://.*:8000"|"proxy": "http://<BACKEND_PRIVATE_IP>:8000"|' package.json
+
+        npm install
+       
+
         '''
      }
    }
     stage ('Test') {
       steps {
         sh '''#!/bin/bash
-        <code to activate virtual environment>
+        source venv/bin/activate
         pip install pytest-django
         python backend/manage.py makemigrations
         python backend/manage.py migrate
@@ -41,7 +61,7 @@ pipeline {
       stage('Apply') {
         steps {
             dir('Terraform') {
-                sh 'terraform apply plan.tfplan' 
+                sh 'terraform apply -auto-approve plan.tfplan' 
                 }
         }  
       }       

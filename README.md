@@ -66,6 +66,7 @@ python manage.py runserver 0.0.0.0:8000
 
 7. In the "Frontend" EC2 (React), clone your source code repository and install Node.js and npm by running:
 ```
+git clone https://github.com/dolmagrg123/ecommerce_terraform_deployment.git
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt install -y nodejs
 ```
@@ -74,7 +75,7 @@ sudo apt install -y nodejs
 
 9. Install the dependencies by running:
 ```
-cd ./frontend
+cd ecommerce_terraform_deployment/frontend
 npm i
 ```
 
