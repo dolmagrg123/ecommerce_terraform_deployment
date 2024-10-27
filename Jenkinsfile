@@ -6,10 +6,6 @@ pipeline {
         sh '''#!/bin/bash
         echo "Building"
         git clone https://github.com/dolmagrg123/ecommerce_terraform_deployment.git
-
-        sudo apt install -y software-properties-common
-        sudo add-apt-repository -y ppa:deadsnakes/ppa
-        sudo apt install python3.9 python3.9-venv python3.9-dev
         python3.9 -m venv venv
         source venv/bin/activate
         cd ./backend
