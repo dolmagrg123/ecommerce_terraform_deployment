@@ -88,7 +88,7 @@ pipeline {
         dir('backend') {
           sh '''#!/bin/bash
           # Activate virtual environment
-          source ../venv/bin/activate
+          source venv/bin/activate
 
           # Step 1: Create tables in RDS
           python manage.py makemigrations account
