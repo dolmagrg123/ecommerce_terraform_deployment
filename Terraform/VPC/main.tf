@@ -143,8 +143,8 @@ data "aws_vpc" "default" {
 
 # Create the VPC peering connection
 resource "aws_vpc_peering_connection" "peer_connection" {
-  vpc_id        = aws_vpc.wl5vpc.id          
-  peer_vpc_id   = data.aws_vpc.default.id    
+  vpc_id        = data.aws_vpc.default.id            
+  peer_vpc_id   = aws_vpc.wl5vpc.id
   tags = {
     Name = "VPC peering"
   }
@@ -171,7 +171,7 @@ data "aws_route_table" "default" {
   vpc_id = data.aws_vpc.default.id
 }
 # Route from default VPC to custom VPC
-resource "aws_route" "default_vpc_to_custom_vpc" {
+resource "aws_route" "custom_to_default" {
   route_table_id         = data.aws_route_table.default.id            # Default VPC route table
   destination_cidr_block = "10.0.0.0/18"                  # Custom VPC CIDR block
   vpc_peering_connection_id = aws_vpc_peering_connection.peer_connection.id
