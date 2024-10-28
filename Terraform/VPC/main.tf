@@ -167,6 +167,9 @@ resource "aws_route" "custom_vpc_to_default_vpc" {
   vpc_peering_connection_id = aws_vpc_peering_connection.peer_connection.id
 }
 
+data "aws_route_table" "default" {
+  vpc_id = data.aws_vpc.default.id
+}
 # Route from default VPC to custom VPC
 resource "aws_route" "default_vpc_to_custom_vpc" {
   route_table_id         = data.aws_route_table.default.id            # Default VPC route table
