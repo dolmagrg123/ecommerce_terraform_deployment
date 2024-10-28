@@ -44,7 +44,7 @@ resource "aws_security_group" "rds_sg" {
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
-    security_groups = [var.default_vpc_cidr]
+    security_groups = ["sg-0a0e6775c7af18d1e"]
   }
 
   egress {
