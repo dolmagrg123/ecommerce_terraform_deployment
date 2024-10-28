@@ -40,6 +40,13 @@ resource "aws_security_group" "rds_sg" {
     security_groups = [var.backend_sg_id]
   }
 
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [var.default_vpc_cidr]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
