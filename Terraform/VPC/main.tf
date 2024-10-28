@@ -136,4 +136,53 @@ resource "aws_route_table_association" "assoc_private_1b" {
 }
 
 
+#pull the data to get default vpc id
+data "aws_vpc" "default" {
+  default = true
+}
+
+# Create the VPC peering connection
+resource "aws_vpc_peering_connection" "peer_connection" {
+  vpc_id        = aws_vpc.wl5vpc.id          
+  peer_vpc_id   = data.aws_vpc.default.id    
+  tags = {
+    Name = "VPC peering"
+  }
+}
+
+#Accept VPC peering
+resource "aws_vpc_peering_connection_accepter" "peer_accepter" {
+  vpc_peering_connection_id = aws_vpc_peering_connection.peer_connection.id
+  auto_accept               = true
+
+  tags = {
+    Name = "custom-to-default-peering-accepted"
+  }
+}
+
+# Route from custom VPC to default VPC
+resource "aws_route" "custom_vpc_to_default_vpc" {
+  route_table_id         = aws_route_table.rt_pri.id  # Replace with custom VPC route table ID
+  destination_cidr_block = data.aws_vpc.default.cidr_block            # Default VPC CIDR block
+  vpc_peering_connection_id = aws_vpc_peering_connection.peer_connection.id
+}
+
+# Route from default VPC to custom VPC
+resource "aws_route" "default_vpc_to_custom_vpc" {
+  route_table_id         = data.aws_route_table.default.id            # Default VPC route table
+  destination_cidr_block = "10.0.0.0/18"                  # Custom VPC CIDR block
+  vpc_peering_connection_id = aws_vpc_peering_connection.peer_connection.id
+}
+
+resource "aws_security_group_rule" "allow_http_from_default_vpc" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = [data.aws_vpc.default.cidr_block]  # Allow traffic from the default VPC CIDR block
+  security_group_id = var.backend_sg_id
+}
+
+
+
 

@@ -21,6 +21,7 @@ provider "aws" {
 
 module "VPC" {
   source = "./VPC"
+  backend_sg_id = module.EC2.backend_sg_id
 }
 
 module "EC2"{
