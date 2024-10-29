@@ -15,7 +15,8 @@ pipeline {
         git clone https://github.com/dolmagrg123/ecommerce_terraform_deployment.git
         python3.9 -m venv venv
         source venv/bin/activate
-        cd ./backend
+        cd ecommerce_terraform_deployment/backend
+        git pull
         pip install -r requirements.txt
 
         '''
