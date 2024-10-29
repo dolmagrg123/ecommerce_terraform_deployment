@@ -99,6 +99,7 @@ pipeline {
                     ssh -i ${SSH_KEY} -o StrictHostKeyChecking=no -J ${SSH_USER}@${BASTION_HOST} ${SSH_USER}@${PRIVATE_HOST} << EOF
                     echo "Connected to private EC2!"
                     # Run your commands here, e.g., check a service or deploy files
+                    cd ecommerce_terraform_deployment/backend
                     # Activate virtual environment
                     source venv/bin/activate
 
