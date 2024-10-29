@@ -89,14 +89,14 @@ pipeline {
           }
         }
       }
-    // }
+    
 
     stage('Database Load') {
             steps {
-                script {
+                sshagent(['JENKINS_CREDENTIALS_ID']) {
                     // SSH command to reach the private EC2 through the bastion host
                     sh """
-                    ssh -i ${SSH_KEY} -o StrictHostKeyChecking=no -J ${SSH_USER}@${BASTION_HOST} ${SSH_USER}@${PRIVATE_HOST} << EOF
+                    ssh -i ${SSH_KEY} -o StrictHostKeyChecking=no -J ${SSH_USER}@${BASTION_HOST} ${SSH_USER}@${PRIVATE_HOST} << 'ENDSSH'
                     echo "Connected to private EC2!"
                     # Run your commands here, e.g., check a service or deploy files
                     cd ecommerce_terraform_deployment/backend
@@ -112,13 +112,12 @@ pipeline {
                     # Step 2: Migrate data from SQLite to RDS
                     python manage.py dumpdata --database=sqlite --natural-foreign --natural-primary -e contenttypes -e auth.Permission --indent 4 > datadump.json
                     python manage.py loaddata datadump.json   
-                    hostname
-                    exit
-                    EOF
+                    ENDSSH
                     """
     
         }
       }
     }
-  }
+  
+}
 }
