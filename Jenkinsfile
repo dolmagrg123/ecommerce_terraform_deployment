@@ -1,5 +1,12 @@
 pipeline {
   agent any
+    environment {
+        BASTION_HOST = '34.207.103.19'
+        PRIVATE_HOST = '10.0.3.144'
+        SSH_KEY = credentials('my_ssh_key') // ID of the SSH key stored in Jenkins
+        SSH_USER = 'ubuntu' // Replace with your instance's user, like ubuntu or ec2-user
+    }
+
   stages {
     stage('Build') {
       steps {
@@ -15,17 +22,17 @@ pipeline {
       }
     }
     
-    // stage('Test') {
-    //   steps {
-    //     sh '''#!/bin/bash
-    //     source venv/bin/activate
-    //     pip install pytest-django
-    //     python backend/manage.py makemigrations
-    //     python backend/manage.py migrate
-    //     pytest backend/account/tests.py --verbose --junit-xml test-reports/results.xml
-    //     ''' 
-    //   }
-    // }
+    stage('Test') {
+      steps {
+        sh '''#!/bin/bash
+        source venv/bin/activate
+        pip install pytest-django
+        python backend/manage.py makemigrations
+        python backend/manage.py migrate
+        pytest backend/account/tests.py --verbose --junit-xml test-reports/results.xml
+        ''' 
+      }
+    }
    
     stage('Init') {
       steps {
@@ -84,22 +91,30 @@ pipeline {
     // }
 
     stage('Database Load') {
-      steps {
-        dir('backend') {
-          sh '''#!/bin/bash
-          # Activate virtual environment
-          source venv/bin/activate
+            steps {
+                script {
+                    // SSH command to reach the private EC2 through the bastion host
+                    sh """
+                    ssh -i ${SSH_KEY} -o StrictHostKeyChecking=no -J ${SSH_USER}@${BASTION_HOST} ${SSH_USER}@${PRIVATE_HOST} << EOF
+                    echo "Connected to private EC2!"
+                    # Run your commands here, e.g., check a service or deploy files
+                    # Activate virtual environment
+                    source venv/bin/activate
 
-          # Step 1: Create tables in RDS
-          python manage.py makemigrations account
-          python manage.py makemigrations payments
-          python manage.py makemigrations product
-          python manage.py migrate
+                    # Step 1: Create tables in RDS
+                    python manage.py makemigrations account
+                    python manage.py makemigrations payments
+                    python manage.py makemigrations product
+                    python manage.py migrate
 
-          # Step 2: Migrate data from SQLite to RDS
-          python manage.py dumpdata --database=sqlite --natural-foreign --natural-primary -e contenttypes -e auth.Permission --indent 4 > datadump.json
-          python manage.py loaddata datadump.json
-          '''
+                    # Step 2: Migrate data from SQLite to RDS
+                    python manage.py dumpdata --database=sqlite --natural-foreign --natural-primary -e contenttypes -e auth.Permission --indent 4 > datadump.json
+                    python manage.py loaddata datadump.json   
+                    hostname
+                    exit
+                    EOF
+                    """
+    
         }
       }
     }

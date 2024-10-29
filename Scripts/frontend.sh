@@ -15,10 +15,10 @@ git clone https://github.com/dolmagrg123/ecommerce_terraform_deployment.git
 # Navigate to the frontend folder and install npm packages
 cd ecommerce_terraform_deployment/frontend
 
-
-
 # Install frontend dependencies
 npm install
+
+# sed -i 's/http:\/\/localhost:8000/http:\/\/<backend_ip>:8000/' package.json
 
 # Set Node.js options for legacy provider and start the app
 export NODE_OPTIONS=--openssl-legacy-provider
