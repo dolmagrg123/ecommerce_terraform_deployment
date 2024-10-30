@@ -407,10 +407,9 @@ Note 3: You can do this with the RDS password as well.  The "terraform plan" com
 
 We installed prometheus, grafana and node exporter in a new EC2 called Monitoring. We installed prometheus and node exporter in our EC2 and pulled data from Grafana in Monitoring EC2 to visualize.
 
-![Grafana](Images/frontend-1a.jpg)
+
 ![Grafana](Images/frontend-1b.jpg)
-![Grafana](Images/backend-1a.jpg)
-![Grafana](Images/backend1b.jpg)
+
 
 
 6. Document! All projects have documentation so that others can read and understand what was done and how it was done. Create a README.md file in your repository that describes:
