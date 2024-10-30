@@ -102,6 +102,7 @@ pipeline {
                     cd ecommerce_terraform_deployment/backend
                     # Activate virtual environment
                     source venv/bin/activate
+                    pip install psycopg2-binary
 
                     # Step 1: Create tables in RDS
                     python manage.py makemigrations account
