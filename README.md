@@ -3,12 +3,25 @@
 
 ---
 
+- [PURPOSE](#purpose)
+- [STEPS And Why each was Necessary](#the-steps-taken-and-why-each-was-necessaryimportant)
+- [SYSTEM DESIGN DIAGRAM](#system-design-diagram)
+- [ISSUES and TROUBLESHOOTING](#issuestroubleshooting)
+- [OPTIMIZATION](#optimization)
+- [CONCLUSION](#conclusion)
+
+### PURPOSE
+
+In this project, we deploy an application which has a REACT frontend and python/django backend into EC2 using Infrastructure as Code(Terraform) to build our infrastructure and CICD(Jenkins) to deploy our application. The goal was to create a completely automated deployment of a full stack application.
+
+Why we did this:
+
+A new E-Commerce company wants to deploy their application to AWS Cloud Infrastructure that is secure, available, and fault tolerant.  They also want to utilize Infrastructure as Code as well as a CICD pipeline to be able to spin up or modify infrastructure as needed whenever an update is made to the application source code.  As a growing company they are also looking to leverage data and technology for Business Intelligence to make decisions on where to focus their capital and energy on
 
 ## Infrastructure as Code
 
+### The "STEPS" taken (and why each was necessary/important)
 
-
-## Instructions
 
 ### Understanding the process
 Before automating the deployment of any application, you should first deploy it "locally" (and manually) to know what the process to set it up is. The following steps 2-11 will guide you to do just that before automating a CICD pipeline.
@@ -17,7 +30,10 @@ IMPORTANT: THE 2 EC2's CREATED FOR THESE FIRST 11 STEPS MUST BE TERMINATED AFTER
 
 1. Clone this repo to your GitHub account. IMPORTANT: Make sure that the repository name is "ecommerce_terraform_deployment"
 
+github created: https://github.com/dolmagrg123/ecommerce_terraform_deployment
+
 2. Create 2x t3.micro EC2's.  One EC2 is for the "Frontend" and requires ports 22 and 3000 open.  The other EC2 is for the "Backend" and requires ports 22 and 8000 open.
+
 
 3. In the "Backend" EC2 (Django) clone your source code repository and install `"python3.9", "python3.9-venv", and "python3.9-dev"`
 
@@ -98,10 +114,15 @@ After Stopping Backend Server
 NOTE: What is the tech stack?
 
 For frontend: React
+
 For Backend: Django
+
 Database: SQlite or PostgreSQL
+
 Deployment: AWS EC2 Instance
+
 CORS : to allow connection between frontend and backend
+
 Note to Self:
 CORS_ALLOW_ALL_ORIGINS = True: This setting allows any domain to access the backend API. While convenient in development, in production, it’s best to specify only trusted frontend domains to restrict access (e.g., CORS_ALLOWED_ORIGINS = ["https://your-frontend-domain.com"]).
 
@@ -158,13 +179,11 @@ Terraform Created below resources:
 ![ALB](Images/ALB.jpg)
 ![RDS](Images/RDS.jpg)
 
-NOTE 1: This list DOES NOT include ALL of the resource blocks required for this infrastructure.  It is up to you to figure out what other resources need to be included to make this work.
 
-NOTE 2: Remember that "planning" is always the first step in creating infrastructure.  It is highly recommeded to diagram this infrastructure first so that it can help you organize your terraform file.
+Planning Diagram:
 
 ![Planned Infrastructure](Images/workload5.drawio.png)
 
-NOTE 3: Put your terraform files into your GitHub repo in the "Terraform" directory. 
 
 3. To add the RDS database to your main.tf, use the following resource blocks:
 
@@ -408,6 +427,20 @@ Note 3: You can do this with the RDS password as well.  The "terraform plan" com
 
     g. A "CONCLUSION" statement as well as any other sections you feel like you want to include.
 
+### "SYSTEM DESIGN DIAGRAM"
+### "ISSUES/TROUBLESHOOTING"
+
+RDS connection error:
+
+We are unable to connect to the RDS from the Jenkins Server. So we manually migrated the database from EC2 server and we were able to run queries in RDS database from out backend server.
+
+Since I was adding the EC2 private IPs, RDS data endpoints manually, I had to redo it everytime I destroy the infrastructure and create it again.
+
+### "OPTIMIZATION"
+
+I would have to automate the EC2 IPs and RDS endpoint to automatically add to the setting.py file.
+
+
 ## Business Intelligence
 
 The database for this application is not empty.  There are many tables but the following are the ones to focus on: "auth_user", "product", "account_billing_address", "account_stripemodel", and "account_ordermodel"
@@ -468,4 +501,9 @@ Questions:
 4. Of all of the orders placed, which product was the most sold? Please prodide the top 3.
 
 Provide the SQL query used to gather this information as well as the answer.
+
+
+### "CONCLUSION"
+
+We used terraform and jenkins to automate the infrastructure. With additional automation the process will be simpler.
 
