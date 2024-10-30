@@ -19,7 +19,7 @@ python3.9 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 # sed -i 's/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \["<backend_ip>"\]/' my_project/settings.py
-
+pip install psycopg2-binary
 
 # Start Django server
 python3 manage.py runserver 0.0.0.0:8000
