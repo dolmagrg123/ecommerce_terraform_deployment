@@ -103,6 +103,12 @@ pipeline {
                     # Activate virtual environment
                     source venv/bin/activate
                     pip install psycopg2-binary
+                    # Configuring RDS DB information in settings.py
+                    sed -i "s/'NAME': 'your_db_name'/'NAME': '${db_name}'/g" /home/ubuntu/ecommerce_terraform_deployment/backend/my_project/settings.py || { echo "DB Name failed to update."; exit 1; }
+                    sed -i "s/'USER': 'your_username'/'USER': '${db_username}'/g" /home/ubuntu/ecommerce_terraform_deployment/backend/my_project/settings.py || { echo "DB Username failed to update."; exit 1; }
+                    sed -i "s/'PASSWORD': 'your_password'/'PASSWORD': '${db_password}'/g" /home/ubuntu/ecommerce_terraform_deployment/backend/my_project/settings.py || { echo "DB Password failed to update."; exit 1; }
+                    sed -i "s/'HOST': 'your-rds-endpoint.amazonaws.com'/'HOST': '${rds_address}'/g" /home/ubuntu/ecommerce_terraform_deployment/backend/my_project/settings.py || { echo "DB Host Address failed to update."; exit 1; }
+
 
                     # Step 1: Create tables in RDS
                     python manage.py makemigrations account
