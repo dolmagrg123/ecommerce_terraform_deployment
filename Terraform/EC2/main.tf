@@ -126,6 +126,13 @@ resource "aws_security_group" "backend_sg" {#name that terraform recognizes
     protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+   ingress {
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   # Egress rules: Define outbound traffic that is allowed. The below configuration allows all outbound traffic from the instance.
 
    egress {
