@@ -10,6 +10,7 @@ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt install -y nodejs
 
 # Clone the repository
+cd /home/ubuntu
 git clone https://github.com/dolmagrg123/ecommerce_terraform_deployment.git
 
 # Navigate to the frontend folder and install npm packages

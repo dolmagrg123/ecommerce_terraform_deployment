@@ -4,6 +4,7 @@ sudo apt update
 sudo apt install -y git software-properties-common
 
 # Clone the repository
+cd /home/ubuntu
 git clone https://github.com/dolmagrg123/ecommerce_terraform_deployment.git
 
 # Set up Python 3.9 and virtual environment
