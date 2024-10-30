@@ -22,4 +22,5 @@ pip install -r requirements.txt
 
 sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \[\"${backend_ip}\"\]/" settings.py
 # Start Django server
-python3 manage.py runserver 0.0.0.0:8000
+mkdir /home/ubuntu/logs && touch /home/ubuntu/logs/backend.log
+python3 manage.py runserver 0.0.0.0:8000 > /home/ubuntu/logs/backend.log 2>&1 &
