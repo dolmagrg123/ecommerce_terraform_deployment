@@ -403,7 +403,9 @@ Note 3: You can do this with the RDS password as well.  The "terraform plan" com
 
 5. Run the Jenkins Pipeline to create and deploy the infrastructure and application!
 
-5. Create a monitoring EC2 called "Monitoring" in the default VPC that will monitor the resources of the various servers.  (Hopefully you read through these instructions in it's entirety before you ran the pipeline so that you could configure the correct ports for node exporter.)
+5. Create a monitoring EC2 called "Monitoring" in the default VPC that will monitor the resources of the various servers.
+
+We installed prometheus, grafana and node exporter in a new EC2 called Monitoring. We installed prometheus and node exporter in our EC2 and pulled data from Grafana in Monitoring EC2 to visualize.
 
 ![Grafana](Images/frontend-1a.jpg)
 ![Grafana](Images/frontend-1b.jpg)
