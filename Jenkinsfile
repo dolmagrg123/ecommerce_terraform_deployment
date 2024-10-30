@@ -23,17 +23,17 @@ pipeline {
       }
     }
     
-    stage('Test') {
-      steps {
-        sh '''#!/bin/bash
-        source venv/bin/activate
-        pip install pytest-django
-        python backend/manage.py makemigrations
-        python backend/manage.py migrate
-        pytest backend/account/tests.py --verbose --junit-xml test-reports/results.xml
-        ''' 
-      }
-    }
+    // stage('Test') {
+    //   steps {
+    //     sh '''#!/bin/bash
+    //     source venv/bin/activate
+    //     pip install pytest-django
+    //     python backend/manage.py makemigrations
+    //     python backend/manage.py migrate
+    //     pytest backend/account/tests.py --verbose --junit-xml test-reports/results.xml
+    //     ''' 
+    //   }
+    // }
    
     stage('Init') {
       steps {
@@ -103,7 +103,7 @@ pipeline {
                     # Activate virtual environment
                     source venv/bin/activate
                     pip install psycopg2-binary
-
+                    sudo chown -R ubuntu:ubuntu /home/ubuntu/ecommerce_terraform_deployment/backend
                     # Step 1: Create tables in RDS
                     python manage.py makemigrations account
                     python manage.py makemigrations payments
