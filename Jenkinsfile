@@ -1,8 +1,8 @@
 pipeline {
   agent any
     environment {
-        BASTION_HOST = '34.207.103.19'
-        PRIVATE_HOST = '10.0.3.144'
+        BASTION_HOST = '10.0.1.170'
+        PRIVATE_HOST = '10.0.3.206'
         SSH_KEY = credentials('my_ssh_key') // ID of the SSH key stored in Jenkins
         SSH_USER = 'ubuntu' // Replace with your instance's user, like ubuntu or ec2-user
     }
