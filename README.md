@@ -39,7 +39,7 @@ E: Couldn't find any package by glob 'python3.9-dev'
 git clone https://github.com/dolmagrg123/ecommerce_terraform_deployment.git
 
 sudo apt install -y software-properties-common
-sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo add-apt-repository ppa:deadsnakes/ppa -y
 sudo apt install python3.9 python3.9-venv python3.9-dev
 
 ```
