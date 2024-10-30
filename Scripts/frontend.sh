@@ -18,6 +18,8 @@ cd ecommerce_terraform_deployment/frontend
 # Install frontend dependencies
 npm install
 
+npm i
+
 # sed -i 's/http:\/\/localhost:8000/http:\/\/<backend_ip>:8000/' package.json
 
 # Set Node.js options for legacy provider and start the app
