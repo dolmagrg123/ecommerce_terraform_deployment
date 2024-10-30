@@ -93,7 +93,7 @@ pipeline {
 
     stage('Database Load') {
             steps {
-                    sshagent(credentials: ['my-ssh-key']) {
+                    sshagent(credentials: ['my_ssh_key']) {
                     // SSH command to reach the private EC2 through the bastion host
                     sh """
                     ssh -i ${SSH_KEY} -o StrictHostKeyChecking=no -J ${SSH_USER}@${BASTION_HOST} ${SSH_USER}@${PRIVATE_HOST} << 'ENDSSH'
