@@ -150,6 +150,14 @@ terraform -help
 - A load balancer that will direct the inbound traffic to either of the public subnets.
 - An RDS databse (See next step for more details)
 ```
+
+Terraform Created below resources:
+
+![EC2](Images/tf_EC2.jpg)
+![VPC](Images/VPC.jpg)
+![ALB](Images/ALB.jpg)
+![RDS](Images/RDS.jpg)
+
 NOTE 1: This list DOES NOT include ALL of the resource blocks required for this infrastructure.  It is up to you to figure out what other resources need to be included to make this work.
 
 NOTE 2: Remember that "planning" is always the first step in creating infrastructure.  It is highly recommeded to diagram this infrastructure first so that it can help you organize your terraform file.
@@ -254,6 +262,72 @@ NOTE: DO NOT CHANGE THE VALUES OF THE VARIABLES!
 
 Note 1: You will need to create scripts that will run in "User data" section of each of the instances that will set up the front and/or back end servers when Terraform creates them.  Put these scripts into a "Scripts" directory in the GitHub Repo.
 
+Frontend Script:
+
+```
+#!/bin/bash
+# Frontend EC2 setup script for React application
+
+# Update package lists
+sudo apt update -y
+
+# Install dependencies
+sudo apt install -y git curl
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Clone the repository
+cd /home/ubuntu
+git clone https://github.com/dolmagrg123/ecommerce_terraform_deployment.git
+
+# Navigate to the frontend folder and install npm packages
+cd ecommerce_terraform_deployment/frontend
+
+# Install frontend dependencies
+npm install
+
+npm i
+
+# sed -i 's/http:\/\/localhost:8000/http:\/\/<backend_ip>:8000/' package.json
+
+# Set Node.js options for legacy provider and start the app
+export NODE_OPTIONS=--openssl-legacy-provider
+nohup npm start &
+```
+
+Backend Script:
+
+```
+#!/bin/bash
+# Update and install required packages
+sudo apt update
+sudo apt install -y git software-properties-common
+
+# Clone the repository
+cd /home/ubuntu
+git clone https://github.com/dolmagrg123/ecommerce_terraform_deployment.git
+
+# Set up Python 3.9 and virtual environment
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install -y python3.9 python3.9-venv python3.9-dev
+
+# Navigate to backend directory
+cd ecommerce_terraform_deployment/backend
+
+# Create and activate virtual environment, install dependencies
+python3.9 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+# pip install psycopg2-binary
+
+# sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \[\"${backend_ip}\"\]/" settings.py
+# Start Django server
+# mkdir /home/ubuntu/logs && touch /home/ubuntu/logs/backend.log
+nohup python manage.py runserver 0.0.0.0:8000 &
+
+```
+
 Note 2: Recall from the first section of this workload that in order to connect the frontend to the backend you needed to modify the settings.py file and the package.json file.  This can be done manually after the pipeline finishes OR can be automated in the pipeline with the following commands:
 
 `sed -i 's/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \["your_ip_address"\]/' settings.py`
@@ -279,6 +353,8 @@ python manage.py dumpdata --database=sqlite --natural-foreign --natural-primary 
 
 python manage.py loaddata datadump.json
 ```
+![data](Images/data_migration.jpg)
+![data](Images/data_dump.jpg)
 
 Note 5: Notice lines 33, 34, and 36 of the Jenkinsfile.  You will need to use AWS IAM credentials for this account to use terraform.  However, you cannot upload those credentials to GitHub otherwise your account will be locked immediately.  Again: DO NOT EVER UPLOAD YOUR AWS ACCESS KEYS TO GITHUB OR YOUR ACCOUNT WILL BE LOCKED OUT IMMEDIATELY! (notify an insructor if this happens..).  In order to use your keys, you will need to use Jenkins Secret Manager to store credentials.  Follow the following steps to do so:
 
@@ -309,6 +385,12 @@ Note 3: You can do this with the RDS password as well.  The "terraform plan" com
 5. Run the Jenkins Pipeline to create and deploy the infrastructure and application!
 
 5. Create a monitoring EC2 called "Monitoring" in the default VPC that will monitor the resources of the various servers.  (Hopefully you read through these instructions in it's entirety before you ran the pipeline so that you could configure the correct ports for node exporter.)
+
+![Grafana](Images/frontend-1a.jpg)
+![Grafana](Images/frontend-1b.jpg)
+![Grafana](Images/backend-1a.jpg)
+![Grafana](Images/backend1b.jpg)
+
 
 6. Document! All projects have documentation so that others can read and understand what was done and how it was done. Create a README.md file in your repository that describes:
 
@@ -375,7 +457,13 @@ Questions:
 
 2. How many rows of data are there in these tables?  What is the SQL query you would use to find out how many users, products, and orders there are?
 
+![SQL](Images/database_rows.jpg)
+
+
 3. Which states ordered the most products? Least products? Provide the top 5 and bottom 5 states.
+
+![SQL](Images/top_state_orders.jpg)
+![SQL](Images/bottom_state_orders.jpg)
 
 4. Of all of the orders placed, which product was the most sold? Please prodide the top 3.
 
