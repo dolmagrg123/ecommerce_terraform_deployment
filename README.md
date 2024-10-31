@@ -512,5 +512,5 @@ Provide the SQL query used to gather this information as well as the answer.
 
 ### "CONCLUSION"
 
-We used terraform and jenkins to automate the infrastructure. With additional automation the process will be simpler.
-
+We used terraform and jenkins to automate the process of creating an infrastructure and deploy a fullstack application. With additional automation the process will be simpler.
+The goal was to create a completely automated deployment of a full stack application but currently we were able to do it with some manual work.
