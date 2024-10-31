@@ -28,6 +28,8 @@ Before automating the deployment of any application, you should first deploy it 
 
 IMPORTANT: THE 2 EC2's CREATED FOR THESE FIRST 11 STEPS MUST BE TERMINATED AFTERWARD SO THAT THE ONLY RESOURCES THAT ARE IN THE ACCOUNT ARE FOR JENKINS/TERRAFORM, MONITORING, AND THE INFRASTRUCTURE THAT TERRAFORM CREATES!
 
+![Diagram_manual](Images/WL5_Manual.jpg)
+
 1. Clone this repo to your GitHub account. IMPORTANT: Make sure that the repository name is "ecommerce_terraform_deployment"
 
 github created: https://github.com/dolmagrg123/ecommerce_terraform_deployment
@@ -429,6 +431,10 @@ We installed prometheus, grafana and node exporter in a new EC2 called Monitorin
     g. A "CONCLUSION" statement as well as any other sections you feel like you want to include.
 
 ### "SYSTEM DESIGN DIAGRAM"
+
+![System_design_Diagram](Diagram.jpg)
+
+
 ### "ISSUES/TROUBLESHOOTING"
 
 RDS connection error:
